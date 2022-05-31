@@ -30,12 +30,13 @@ except OSError:
 
 print("new session id:", session_id)
 
-
-
 #Apertura file JSON per configurare il sensore 
 with open('config.json') as file:
   CONFIG = json.load(file)
 #print(CONFIG,CONFIG["ssid"])
+
+period_ms= CONFIG["period_edge_control_ms"] #ogni quanto verifico fronte
+led_on_time_ms= CONFIG["led_on_time_ms"] #durata accensione led'''
 
 #CONNECT WI-FI
 ssid = CONFIG["ssid"]
