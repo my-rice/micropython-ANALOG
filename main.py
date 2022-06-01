@@ -18,7 +18,7 @@ def adc_read():
         led_pin.value(1)
         i=i+1
         #value=30  #DA LEGGERE IL VALORE VERO
-        print(i, 'Reading value',value,', publishing...')
+        print(i, 'Reading value',value,', publishing to topic',topic_value)
         payload={"session-id": session_id, "value": value}
         c.publish(topic_value,json.dumps(payload)) #converte qualsiasi oggetto in una stringa in formatoJSON 
         utime.sleep_ms(led_on_time_ms)

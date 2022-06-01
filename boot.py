@@ -21,6 +21,10 @@ except OSError:
 print("old session id:", session_id)      
 session_id=(session_id + 1)%100
 
+#inizializzazione del led in PWM per ricerca rete internet
+led_pin = machine.PWM(machine.Pin(0), freq=4)
+
+
 try:
   f= open('session_id', 'w')
   f.write(str(session_id))
@@ -35,7 +39,7 @@ with open('config.json') as file:
   CONFIG = json.load(file)
 #print(CONFIG,CONFIG["ssid"])
 
-period_ms= CONFIG["period_edge_control_ms"] #ogni quanto verifico fronte
+period_ms= CONFIG["period_ms"] #ogni quanto verifico fronte
 led_on_time_ms= CONFIG["led_on_time_ms"] #durata accensione led'''
 
 #CONNECT WI-FI
@@ -69,7 +73,6 @@ message_interval = 5
 counter = 0
 
 station = network.WLAN(network.STA_IF)
-
 station.active(True)
 station.connect(ssid, password)
 

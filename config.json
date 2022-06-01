@@ -8,5 +8,5 @@
     "mqtt_password": "BlackShark4",
     "topic_pub": "NOCTUA",
     "type_SENSOR": "TEMPERATURE",
-    "client_id" : "movimentouno"
+    "client_id" : "TEMP1"
 }
