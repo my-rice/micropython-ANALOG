@@ -10,7 +10,7 @@ from machine import Timer
 
 i=0
 value=30
-def adc_read():
+def adc_read(x):
     global i
     global value
     current_value = value #= pin_adc.value() #Devo inserire il valore corrente del sensore adc
@@ -20,18 +20,20 @@ def adc_read():
         #value=30  #DA LEGGERE IL VALORE VERO
         print(i, 'Reading value',value,', publishing to topic',topic_value)
         payload={"session-id": session_id, "value": value}
-        c.publish(topic_value,json.dumps(payload)) #converte qualsiasi oggetto in una stringa in formatoJSON 
+        try:
+          c.publish(topic_value,json.dumps(payload)) #converte qualsiasi oggetto in una stringa in formatoJSON 
+        except OSError:
+          print("Couldn't publish data!!!")
         utime.sleep_ms(led_on_time_ms)
         led_pin.value(0)
-    last_value=current_value
     
 
-# tim = Timer(-1)
-# tim.init(period=period_edge_control_ms, mode=Timer.PERIODIC, callback=on_click)
+tim = Timer(-1)
+tim.init(period=period_ms, mode=Timer.PERIODIC, callback=adc_read)
 
 while True:
-    adc_read()
-    utime.sleep_ms(period_ms)
+    #adc_read()
+    #utime.sleep_ms(period_ms)
     if station.isconnected() == False:
         led_pin = machine.PWM(machine.Pin(0), freq=4)
         led_pin.duty(512)
