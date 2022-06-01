@@ -3,23 +3,24 @@ from umqttsimple import MQTTClient
 from machine import Pin
 import utime
 from machine import Timer
-
+import urandom
 
 #TODO: Da definire il pin adc
 #pin_adc = 
 
 i=0
-value=30
+value=30.0
 def adc_read(x):
-    global i
+    #global i
     global value
     current_value = value #= pin_adc.value() #Devo inserire il valore corrente del sensore adc
     if station.isconnected() == True:
         led_pin.value(1)
-        i=i+1
+        #i=i+1 #potrebbe andare in overflow
         #value=30  #DA LEGGERE IL VALORE VERO
-        print(i, 'Reading value',value,', publishing to topic',topic_value)
-        payload={"session-id": session_id, "value": value}
+        value=int(urandom.getrandbits(8))/255*30.0
+        print('Reading value',value,', publishing to topic',topic_value)
+        payload={"session-id": session_id, "value": str(value)}
         try:
           c.publish(topic_value,json.dumps(payload)) #converte qualsiasi oggetto in una stringa in formatoJSON 
         except OSError:
