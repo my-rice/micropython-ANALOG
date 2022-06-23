@@ -1,11 +1,11 @@
 {
     "period_ms": 5000,
     "led_on_time_ms": 1000,
-    "ssid": "Home 1",
-    "password": "123a456b789c",
+    "ssid": "TIM-30024809",
+    "password": "lisa1995",
     "mqtt_server": "stpo0y.stackhero-network.com",
     "mqtt_user": "admin",
     "mqtt_password": "BlackShark4",
     "topic_pub": "NOCTUA",
-    "type_SENSOR": "LIGHT"
+    "type_SENSOR": "TEMPERATURE"
 }
