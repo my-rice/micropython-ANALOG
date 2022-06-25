@@ -24,7 +24,6 @@ session_id=(session_id + 1)%100
 #inizializzazione del led in PWM per ricerca rete internet
 led_pin = machine.PWM(machine.Pin(0), freq=4)
 
-
 try:
   f= open('session_id', 'w')
   f.write(str(session_id))
