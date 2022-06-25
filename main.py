@@ -18,9 +18,9 @@ def adc_read(x):
         led_pin.value(1)
         #i=i+1 #potrebbe andare in overflow
         #value=30  #DA LEGGERE IL VALORE VERO
-        if type_SENSOR == 'TEMPERATURE':
+        if type_SENSOR == 'TEMPERATURE':       #Se il sensore è di temperatura
           value=int(urandom.getrandbits(8))/255*30.0
-        else: #sensore di luce assume valori da 0 a 700 lux
+        else: #sensore di luce assume valori da 0 a 700 lux    #Se il sensore è di luce
           value=int(urandom.getrandbits(8))/255*700.0
         print('Reading value',value,', publishing to topic',topic_value)
         payload={"session-id": session_id, "value": str(value)}
