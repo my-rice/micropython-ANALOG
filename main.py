@@ -4,9 +4,14 @@ from machine import Pin
 import utime
 from machine import Timer
 import urandom
+import dht
 
+
+#Definizione dei pin 
 #TODO: Da definire il pin adc
 #pin_adc = 
+dht11_pin = dht.DHT11(machine.Pin(2)) #Deve essere gpio2 #TODO
+
 
 i=0
 value=30.0
@@ -19,7 +24,10 @@ def adc_read(x):
         #i=i+1 #potrebbe andare in overflow
         #value=30  #DA LEGGERE IL VALORE VERO
         if type_SENSOR == 'TEMPERATURE':       #Se il sensore è di temperatura
-          value=int(urandom.getrandbits(8))/255*30.0
+          #value=int(urandom.getrandbits(8))/255*30.0
+          d.measure()
+          value = d.temperature()
+          print(value)
         else: #sensore di luce assume valori da 0 a 700 lux    #Se il sensore è di luce
           value=int(urandom.getrandbits(8))/255*700.0
         print('Reading value',value,', publishing to topic',topic_value)

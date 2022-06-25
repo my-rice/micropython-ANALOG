@@ -1,8 +1,8 @@
 {
     "period_ms": 5000,
     "led_on_time_ms": 1000,
-    "ssid": "TIM-30024809",
-    "password": "lisa1995",
+    "ssid": "Home 1",
+    "password": "123a456b789c",
     "mqtt_server": "stpo0y.stackhero-network.com",
     "mqtt_user": "admin",
     "mqtt_password": "BlackShark4",
