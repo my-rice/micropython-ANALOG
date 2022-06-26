@@ -1,6 +1,7 @@
 #OMNISCIENT
 from umqttsimple import MQTTClient
 from machine import Pin
+from machine import ADC
 import utime
 from machine import Timer
 import urandom
@@ -9,8 +10,8 @@ import dht
 
 #Definizione dei pin 
 #TODO: Da definire il pin adc
-#pin_adc = 
-dht11_pin = dht.DHT11(machine.Pin(2)) #Deve essere gpio2 #TODO
+pin_adc = ADC(0)                #Deve essere A0 -> [0,1] V di tensione in ingresso
+dht11_pin = dht.DHT11(machine.Pin(2)) #Deve essere gpio2
 
 
 i=0
@@ -25,11 +26,13 @@ def adc_read(x):
         #value=30  #DA LEGGERE IL VALORE VERO
         if type_SENSOR == 'TEMPERATURE':       #Se il sensore è di temperatura
           #value=int(urandom.getrandbits(8))/255*30.0
-          d.measure()
-          value = d.temperature()
+          dht11_pin.measure()
+          value = dht11_pin.temperature()
           print(value)
-        else: #sensore di luce assume valori da 0 a 700 lux    #Se il sensore è di luce
-          value=int(urandom.getrandbits(8))/255*700.0
+        elif type_SENSOR == 'LIGHT': #sensore di luce assume valori da 0 a 700 lux    #Se il sensore è di luce
+          #value=int(urandom.getrandbits(8))/255*700.0
+          value = pin_adc.read_u16()
+          print(str(value))
         print('Reading value',value,', publishing to topic',topic_value)
         payload={"session-id": session_id, "value": str(value)}
         try:
