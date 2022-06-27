@@ -6,6 +6,6 @@
     "mqtt_server": "stpo0y.stackhero-network.com",
     "mqtt_user": "admin",
     "mqtt_password": "BlackShark4",
-    "topic_pub": "NOCTUA",
+    "topic_pub": "OMNISCIENT",
     "type_SENSOR": "LIGHT"
 }

@@ -21,7 +21,7 @@ except OSError:
 print("old session id:", session_id)      
 session_id=(session_id + 1)%100
 
-#inizializzazione del led in PWM per ricerca rete internet
+#Inizializzazione del led in PWM per ricerca rete internet
 led_pin = machine.PWM(machine.Pin(0), freq=4)
 
 try:
@@ -36,7 +36,6 @@ print("new session id:", session_id)
 #Apertura file JSON per configurare il sensore 
 with open('config.json') as file:
   CONFIG = json.load(file)
-#print(CONFIG,CONFIG["ssid"])
 
 period_ms= CONFIG["period_ms"] #ogni quanto verifico fronte
 led_on_time_ms= CONFIG["led_on_time_ms"] #durata accensione led'''
@@ -47,7 +46,6 @@ password = CONFIG["password"]
 mqtt_server = CONFIG["mqtt_server"]
 #EXAMPLE IP ADDRESS
 client_id = ubinascii.hexlify(machine.unique_id())
-#mqtt_user=b'admin'
 mqtt_user= CONFIG["mqtt_user"]
 mqtt_password= CONFIG["mqtt_password"]
 topic_pub= CONFIG["topic_pub"]
@@ -59,7 +57,7 @@ topic_value= str(topic_pub) + "/" + str(type_SENSOR) + "/" + client_id.decode('a
 
 #Funzione per la gestione del PING di broadcast
 def broadcast(topic,msg):
-  if topic == b'NOCTUA/BROADCAST' and msg == b'PING':
+  if topic == b'OMNISCIENT/BROADCAST' and msg == b'PING':
     print("rispondo al ping, con session_id:", session_id, "e stato attuale:", last_value)
     value="CONNECTED"
     payload={"session-id": session_id, "value": value}
@@ -104,4 +102,4 @@ c.connect()
 value="CONNECTED"
 payload={"session-id": session_id, "value": value}
 c.publish(topic_connect,json.dumps(payload)) #converte qualsiasi oggetto in una stringa in formatoJSON 
-c.subscribe("NOCTUA/BROADCAST")
+c.subscribe("OMNISCIENT/BROADCAST")

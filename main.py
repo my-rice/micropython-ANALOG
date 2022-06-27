@@ -4,26 +4,20 @@ from machine import Pin
 from machine import ADC
 import utime
 from machine import Timer
-import urandom
 import dht
 
 
 #Definizione dei pin 
-#TODO: Da definire il pin adc
-pin_adc = ADC(0)                #Deve essere A0 -> [0,1] V di tensione in ingresso
-dht11_pin = dht.DHT11(machine.Pin(2)) #Deve essere gpio2
-
-
+pin_adc = ADC(0)  #Il pin è A0 dell'ESP-12F. Il livello di tensione in ingresso al pin è [0,1] V. 
+dht11_pin = dht.DHT11(machine.Pin(2)) #Deve essere GPIO2 dell'ESP01
 i=0
 value=30.0
+
 def adc_read(x):
-    #global i
     global value
     current_value = value #= pin_adc.value() #Devo inserire il valore corrente del sensore adc
     if station.isconnected() == True:
         led_pin.value(1)
-        #i=i+1 #potrebbe andare in overflow
-        #value=30  #DA LEGGERE IL VALORE VERO
         if type_SENSOR == 'TEMPERATURE':       #Se il sensore è di temperatura
           #value=int(urandom.getrandbits(8))/255*30.0
           dht11_pin.measure()
@@ -31,7 +25,7 @@ def adc_read(x):
           print(value)
         elif type_SENSOR == 'LIGHT': #sensore di luce assume valori da 0 a 700 lux    #Se il sensore è di luce
           #value=int(urandom.getrandbits(8))/255*700.0
-          value = pin_adc.read_u16()
+          value = 0.4*pin_adc.read_u16()
           print(str(value))
         print('Reading value',value,', publishing to topic',topic_value)
         payload={"session-id": session_id, "value": str(value)}
@@ -47,8 +41,6 @@ tim = Timer(-1)
 tim.init(period=period_ms, mode=Timer.PERIODIC, callback=adc_read)
 
 while True:
-    #adc_read()
-    #utime.sleep_ms(period_ms)
     if station.isconnected() == False:
         led_pin = machine.PWM(machine.Pin(0), freq=4)
         led_pin.duty(512)
@@ -58,7 +50,6 @@ while True:
         while station.isconnected() == False:
             print('trying to reconnect')
             i = i + 1
-
             utime.sleep_ms(1000)
             if i >= 300:
                 led_pin.deinit()
